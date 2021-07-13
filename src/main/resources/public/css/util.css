@@ -1,0 +1,213 @@
+#login_info {
+    font-family: "微软雅黑";
+    margin-top: 35px;
+    margin-right: 35px;
+    float: right;
+}
+
+.acade {
+    color: #000;
+    font-family: "微软雅黑";
+    font-size: 14px;
+    float:right;
+}
+
+#img4{
+	/*
+	float: left;
+	margin-left: 0px;
+	margin-top: 20px;
+	*/
+	width:70px;
+	height:70px;
+	
+	background-image: url(../images/logout.png);
+	background-repeat:no-repeat;
+}
+
+.title {
+    height: 45px;
+    background: #fff;
+    border-radius: 10px 10px 0px 0px;
+}
+#top {
+    height: 60px;
+    padding-right: 30px;
+    min-width: 900px;
+    background-color: #f9f9f9;
+}
+/*
+div{
+	display: block;
+}
+*/
+#header {
+    margin-left: 20px;
+    /*
+    padding-top: 20px;
+    padding-bottom: 10px;*/
+    padding-top: 20px;
+    padding-bottom: 90px;
+    width: 1420px;
+}
+
+#header > ul > li {
+    list-style: none;
+    display: inline-block;
+    line-height: 1;
+    border-radius: 3px;
+    position: relative;
+}
+#menu > li {
+    margin: 3px 15px;
+    background-repeat: no-repeat;
+    /* background-image: url(../images/menu_buttons_fc3.png); */
+    /* background-image: url(../images/boy_bg.png); */
+    list-style: none;
+    float: left;
+    width: 77px;
+    height: 77px;
+    cursor: pointer;
+}
+
+#content {
+    height: 100%;
+    /* height: 660px; */
+    min-width: 1202px;
+    width: 1360px;
+    margin: 0 38px;
+}
+
+#left_bar {
+    height: 100%;
+    width: 1100px;
+    float: left;
+}
+
+#right_bar {
+	float: right;
+    width: 218px;
+    height: 100%;
+    margin-left: 35px;
+}
+
+#selectedCourse {
+    width: 218px;
+}
+
+.listTitle {
+    font-size: 16px;
+    font-weight: bold;
+    color: #005197;
+    font-family: "微软雅黑";
+    letter-spacing: 2px;
+}
+
+#listHead, .listHead {
+    height: 8px;
+    border-radius: 5px;
+    background: #fff;
+    border-radius: 5px 5px 0px 0px;
+    width: 217px;
+}
+
+#listContent, .listContent {
+    width: 217px;
+    padding: 8px 0;
+    background-color: #FFF;
+}
+
+#listFoot, .listFoot {
+    height: 8px;
+    border-radius: 5px;
+    background: #fff;
+    border-radius: 0px 0px 5px 5px;
+    width: 217px;
+}
+
+.titleFont {
+    color: #005197;
+    font-size: 24px;
+    height: 45px;
+    display: block;
+    line-height: 45px;
+}
+.hr {
+    height: 15px;
+    background: #FFF;
+}
+.hhr {
+    height: 5px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+#searchBox {
+    height: 35px;
+}
+.input {
+    height: 20px;
+    padding: 0px;
+    margin: 0px;
+}
+select {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    box-sizing: border-box;
+    align-items: center;
+    white-space: pre;
+    -webkit-rtl-ordering: logical;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+    cursor: default;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    border-radius: 0px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+}
+
+select:not(:-internal-list-box) {
+    overflow: visible !important;
+}
+
+.searchBtb {
+    color: #FFF;
+    width: 63px;
+    height: 23px;
+    padding: 0 10px;
+    border: 0;
+    cursor: pointer;
+    margin-left: 10px;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    background-image: linear-gradient(#008CDD, #1A55A2);
+}
+
+
+.tableFoot {
+    clear: both;
+    /* width: 949px; */
+    height: 15px;
+    border-radius: 0px 0px 10px 10px;
+    background-color: white;
+}
+
+.tipInfo {
+	background-color: white;
+    font-style: italic;
+    font-size: 11px;
+    margin-top: -0px;
+    padding: 0px 20px 3px 0px;
+    text-align: right;
+    color: #666666;
+}

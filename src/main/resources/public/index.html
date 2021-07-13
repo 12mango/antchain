@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+    <link rel="stylesheet" href="./js/layui/css/layui.css">
+    <link rel="stylesheet" href="./css/adminLogin.css">
+</head>
+<body class="greyBg">
+<div id="container" style="background-color: #6B91B6;">
+    <div id="main_container">
+        <div style="height: 55px;">
+        </div>
+        
+        <div id="loginBox">
+            <form>
+                <table id="loginInputBox">
+                    <tbody><tr>
+                        <td><div class="label i18n" name="user-name">用户名：</div></td>
+
+                        <td colspan="2"><div class="inputWraper"><input id="loginUsername" tabindex="1"></div>
+                            <div id="suggest" style="display:none;Z-index: 19998;position:absolute;"></div>
+                        </td>
+                        <td rowspan="2"><input type="button" id="loginBtn" tabindex="4"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="label i18n" name="password">密&nbsp;&nbsp;码：</div></td>
+                        <td colspan="2"><div class="inputWraper"><input id="loginPassword" type="password" tabindex="2"></div></td>
+                    </tr>
+
+                    <tr>
+                        <td><div class="label i18n" name="verifycode">验证码：</div></td>
+                        <td style="text-align: left;" colspan="3">
+                            <div class="inputWraper" style="width:90px;float:left"><input id="loginCard" tabindex="3"></div>
+                            <div style="height:34px;margin:5px 5px 5px 5px;float:left;">
+                                
+                            <input id="loginCode" class="layui-input codeInput"  type="button">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td colspan="4" style="text-align: center;"><br><font color="red" style="font-size: 12px;"><label id="alertp"></label></font></td></tr>
+                    <tr>
+                        <td style="text-align: right;font-size:13px;" colspan="4">
+                            <a href="javascript:void(0);" class="i18n" name="forgetPassword" onclick="forget()">忘记密码?</a>
+                        </td>
+                    </tr>
+                </tbody></table>
+            </form>
+            </div>
+
+            
+    </div>
+</div>
+
+<script src="./js/layui/layui.js" type="text/javascript"></script>
+    <script>
+        console.log(md5(123456));
+        layui.use(['layer'],function () {
+            var layer = layui.layer;
+        })
+        $(function () {
+            // 页面初始化生成验证码
+            window.onload = createCode('#loginCode');
+            // 验证码切换
+            $('#kanbuqing').click(function () {
+                createCode('#loginCode');
+            });
+            $('#loginCode').click(function () {
+                createCode('#loginCode');
+            });
+            // 登陆事件
+            //$('#loginBtn').click(function () {
+            //    login();
+            //});
+            // 注册事件
+            $('#loginRegister').click(function () {
+                register();
+            });
+        });
+        // 生成验证码
+        function createCode(codeID) {
+            var code = "";
+            // 验证码长度
+            var codeLength = 4;
+            // 验证码dom元素
+            var checkCode = $(codeID);
+            // 验证码随机数
+            var random = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+                'S','T','U','V','W','X','Y','Z'];
+            for (var i = 0;i < codeLength; i++){
+                // 随机数索引
+                var index = Math.floor(Math.random()*36);
+                code += random[index];
+            }
+            // 将生成的随机验证码赋值
+            checkCode.val(code);
+        }
+        // 校验验证码、用户名、密码
+        function validateCode(inputID,codeID) {
+            var inputCode = $(inputID).val().toUpperCase();
+            var cardCode = $(codeID).val();
+            var loginUsername = $('#loginUsername').val();
+            var loginPassword = $('#loginPassword').val();
+            if ($.trim(loginUsername) == '' || $.trim(loginUsername).length<=0){
+                layer.alert("用户名不能为空", {icon: 0});
+                return false;
+            }
+            if ($.trim(loginPassword) == '' || $.trim(loginPassword).length<=0){
+                layer.alert("密码不能为空", {icon: 0});
+                return false;
+            }
+            if (inputCode.length<=0){
+                layer.alert("验证码不能为空", {icon: 0});
+                return false;
+            }
+            if (inputCode != cardCode){
+                layer.alert("请输入正确验证码", {icon: 0});
+                return false;
+            }
+            return true;
+        }
+        // 登录流程
+        $("#loginBtn").click(function() {
+            console.log("login");
+            if (!validateCode('#loginCard','#loginCode')){
+                //阻断提示
+            }else {
+                var loginUsername = $('#loginUsername').val();
+                var loginPassword = $('#loginPassword').val();
+                var params = {};
+                params.loginUsername = loginUsername;
+                //params.loginPassword = loginPassword;
+                params.loginPassword = String(md5(loginPassword));
+                console.log(params);
+                var loginLoadIndex = layer.load(2);
+               //$('#loginBtn').val("正在登录...");
+                $.ajax({
+                    type:"post",
+                    url:"http://localhost:8080/login",
+                    dataType:'html',
+                    //data:{
+                    //    'sid':loginUsername,
+                    //    'password':loginPassword,
+                    //},
+                    data:JSON.stringify(params),
+                    contentType:'application/json',
+                    success:function (data) {
+                        console.log(data);
+                        //alert(data);
+                        timeoutID = setTimeout("layer.close(loginLoadIndex)",3000);
+                        var jsonData = JSON.parse(data);
+                        console.log(jsonData);
+                        if(jsonData.state=='student'){
+                            localStorage.setItem("token", jsonData.token);
+                            layer.alert("欢迎登录，"+jsonData.name+"同学", {icon: 1}); //0 感叹号 1 对勾 2 八叉 3 问号 4 锁 5 哭脸 6 笑脸 16 loading
+                            setTimeout("window.location.href = './courses.html'",3000);
+                        }
+                        else if(jsonData.state=='teacher'){
+                            localStorage.setItem("token", jsonData.token);
+                            layer.alert("欢迎登录，"+jsonData.name+"老师", {icon: 1}); //0 感叹号 1 对勾 2 八叉 3 问号 4 锁 5 哭脸 6 笑脸 16 loading
+                            setTimeout("window.location.href = './setScore.html'",3000);
+                        }
+                        else{
+                            clearTimeout(timeoutID);
+                            layer.close(loginLoadIndex);
+                            layer.alert("用户名或密码有误，请重新输入", {icon: 5});   
+                        }
+                    },
+                });
+            }
+        })
+    </script>
+</body>
+
+</html>

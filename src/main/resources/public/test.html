@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>查分</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./js/jTemplates/jquery-jtemplates.js"></script>
+    <link rel="stylesheet" type="text/css" src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css"></link>
+    <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./js/layui/css/layui.css">
+    <link rel="stylesheet" href="./css/adminLogin.css">
+    <link rel="stylesheet" href="./css/viewScore.css">
+    <link rel="stylesheet" href="./css/util.css">
+</head>
+
+<body class="greyBg">
+<div id="container" style="background-color: #4b616f;">
+    <div id="top">
+        <div id="school">
+        </div>
+        <div id="system">
+        </div>
+        <div id="login_info">
+            <div id="img4" style="cursor: pointer;float: right;">
+            </div>
+            <div class="acade">
+                登出
+            </div>
+        </div>
+    </div>
+    <div style="background-image:url(./images/teacher_index_bg.png);background-repeat:repeat;margin-bottom:54px;height:800px;width:1280px;">
+        <div id="header">
+            <ul id="menu">
+                    <li id="img1" style="cursor: pointer;" onclick="window.location='courses.html';">
+                        
+                    </li>
+                    <li id="img2" style="cursor: pointer;" onclick="window.location='viewScore.html';">
+
+                    </li>
+                    <li id="img3" style="cursor: pointer;" onclick="window.location='info.html';">  
+
+                    </li>   
+                        
+                    
+            </ul>
+        </div>
+
+        <div id="content">
+            <div id="right-bar" style="float: right;">
+                <div id="selectedCourse" class="downList">
+                    <div id="listHead"></div>
+                    <div id="listContent">
+                        <div class="listTitle">
+                            说明
+                        </div>
+                        <div class="informContent">
+                <div class="xuhao">1.</div>
+                <div class="scoreInform i18n" name="note1">只有成绩在60分及其以上的课程的学分才被计入已修学分。(零分的原因可能是缺考，缓考或其他特殊情况。)</div>
+                <div class="xuhao">2.</div>
+                <div class="scoreInform i18n" name="note2">体育课的学分已包含在公共必修课中计算。</div>
+                <div class="xuhao">3.</div>
+                <div class="scoreInform i18n" name="note3">所有课程类型的成绩都将参与GPA计算，此处计算方式可能与各学院奖学金评定及保研计算不同(此处仅供参考)，具体以各学院相关规定为准。</div>
+            </div>
+                    </div>
+                    <div id="listFoot"></div>
+                </div>
+
+            </div>
+            <div id="left-bar" style="float: left;height: 100%;width: 1100px;">
+                <div class="title">
+                    <span class="titleFont editable" id="title">给分</span>
+                </div>
+                <div class="hr"><div class="hhr"></div></div>
+
+                <fieldset>    
+                    <form id="form"  style="background-color: white">
+                        <div id="searchBox">
+
+                            <span style="display: inline;">课程名&nbsp;</span>
+
+                            <select id="op" onchange="getScores()">
+        
+                            </select>
+            <!--
+            <label for="name">筛选课程名</label>
+            <input type="text" class="form-control" id="title" type="text" value=""
+                placeholder="留空返回全部结果" name="title" style="width: 15%;display:block;margin-left:auto;margin-right:auto;" >
+            -->
+                        <input type="button" class="searchBtb" id="query" value="提交分数" onclick="submitScore()">
+                    </div>
+        <!--
+        <button type="button" id="query" class="btn btn-default">提交</button>
+        -->
+                    </form>
+            <!--
+                课程名<input type="text" value=""
+                placeholder="留空返回全部结果" name="title" id="title"> <br>
+
+                <button type="button" id="query" class="btn btn-primary btn-lg" style="margin: 10px 0px 10px 0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+            -->
+                </fieldset>
+
+
+                <div id='result' style="overflow-y:scroll;overflow-x: hidden;"></div>
+
+                <div class="tableFoot" ></div>
+                
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
+<script src="./js/layui/layui.js" type="text/javascript"> </script>
+<script>
+            $(document).ready(function(){
+                $.ajax({
+                    headers:{
+                        'token': localStorage.getItem("token")
+                    },
+                    url:"http://localhost:8080/setScore/getCourses",
+                    type:"get",
+                    traditional:true,
+                    success:function(ret){
+                        $("#op").setTemplateElement("all_op");
+                        $("#op").processTemplate(ret); 
+                    
+                        console.log("success");
+                        console.log(ret);
+                       
+                        $("#op option:first").prop("selected",'selected');
+                        getScores();
+                    },
+                    error:function(ret,errorInfo,errorObj){
+                        if(ret.responseJSON.code=='A0220'){
+                            layer.alert("登录已过期，稍后将跳转至登录界面", {icon: 5});
+                        }
+                        else if(ret.responseJSON.code=='A0301'){
+                            layer.alert("您还未登录，稍后将跳转至登录界面", {icon: 5});
+                        }
+                        else if(ret.responseJSON.code=='A0300'){
+                            layer.alert("您无权限查看该页面，稍后将跳转至登录界面", {icon: 5});
+                        }
+                        setTimeout("window.location.href = './index.html'",3000);
+                        console.log(ret.responseJSON.code);
+                        console.log(errorInfo);
+                        console.log(errorObj);
+                    }
+                });
+                
+            });
+            function getScores(){
+                var cid = String($("#op").find("option:selected").val());
+                console.log(cid);
+                $.ajax({
+                    headers:{
+                        'token': localStorage.getItem("token")
+                    },
+                    url:"http://localhost:8080/setScore/getScores",
+                    type:"get",
+                    traditional:true,
+                    data:{
+                        "cid":cid,
+                    },
+                    success:function(ret){
+                        $("#result").setTemplateElement("template");
+                        $("#result").processTemplate(ret);
+                        console.log("success");
+                        console.log(ret)
+                    },
+                    error:function(ret,errorInfo,errorObj){
+                        console.log(ret.responseJSON.code);
+                        console.log(errorInfo);
+                        console.log(errorObj);
+                    }
+                });
+            }
+            function editScore(self){
+                console.log($(self));
+                /* 1.先拿到这个td原来的值，然后将这个td变成一个input:text,并且原来的值不动 */
+                var tdVal = $(self).text();
+                var oInput = $("<input type='text' style='width:50px;height:18px' value='"+tdVal+"'/>");
+                $(self).html(oInput);
+                oInput.focus();
+                
+                /* 2.失去焦点，这个td变为原来的text，value为修改过后的value */
+                oInput.blur(function(){
+                    var parent = oInput.parent()
+                    parent.text(oInput.val());
+                    changeScore(parent.parent().parent());
+                });
+                
+            }
+            function changeScore(self){
+                console.log(self);
+                var tmp = self.find(".score");
+                var task1 = parseInt(self.find(".task1").text());
+                var task2 = parseInt(self.find(".task2").text());
+                var task3 = parseInt(self.find(".task3").text());
+                var finalscore = parseInt(self.find(".finalscore").text());
+                tmp.text(task1+task2+task3+finalscore);
+                console.log(tmp);
+            }
+            function submitScore(){
+                var tmp = $('tr');
+                tmp.each(function(){
+                        var cid = $(this).val();
+                        var task1 = $(this).find(".task1").text();
+                        console.log(task1);
+                        console.log(cid);
+                    }
+                )
+            }
+            $("#img4").click(function() {
+                var loginLoadIndex = layer.load(2);
+                //localStorage.clear("token");
+                layer.alert("您已退出登录，稍后将跳转至登录界面", {icon: 0});
+                setTimeout("window.location.href = './index.html'",3000);
+            })
+        </script>
+
+    <textarea id="all_op" style="display:none;">
+        {#foreach $T as item}
+            <option value ="{$T.item.id}">{$T.item.curname}</option>
+        {#/for}
+    </textarea>
+
+    <textarea id="template" class="template" name="hide" style="display:none;">
+        <table class="table table-striped pagination table-bordered"  id='table' border="0" >
+            <thead>
+                <tr>
+                    <th bgcolor="cdd8ea">姓名</th>
+                    <th bgcolor="cdd8ea">学号</th>
+                    <th bgcolor="cdd8ea">平时成绩1</th>
+                    <th bgcolor="cdd8ea">平时成绩2</th>
+                    <th bgcolor="cdd8ea">平时成绩3</th>
+                    <th bgcolor="cdd8ea">期末成绩</th>
+                    <th bgcolor="cdd8ea">总分</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                {#foreach $T as item}
+                <tr value={$T.item.cid}>
+                    <td>
+                        <div class="name" id="name" style="width: 220px">{$T.item.name}</div>
+                    </td>
+                    <td>
+                        <div class="sid" style="width: 200px">{$T.item.sid}</div>
+                    </td>
+                    <td>
+                        <div class="editable task1" style="width: 100px" ondblclick="editScore(this)">{$T.item.task1}</div>
+                    </td>
+                    <td>
+                        <div class="editable task2" style="width: 100px" ondblclick="editScore(this)">{$T.item.task2}</div>
+                    </td>
+                    <td>
+                        <div class="editable task3" style="width: 100px" ondblclick="editScore(this)">{$T.item.task3}</div>
+                    </td>
+                    <td>
+                        <div class="editable finalscore" style="width: 100px" ondblclick="editScore(this)">{$T.item.finalscore}</div>
+                    </td>
+                    <td>
+                        <div class="score" style="width: 150px">{$T.item.score}</div>
+                    </td>
+                </tr>
+                {#/for}
+            </tbody>
+        </table>
+        </textarea>
+
+</html>

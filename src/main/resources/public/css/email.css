@@ -1,0 +1,104 @@
+element.style {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    inset: 0px;
+    display: block;
+}
+.mask {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: #000;
+    opacity: 0.3;
+    /*background-color: rgba(255,255,255,0);*/
+}
+.box {
+    width: 550px;
+    height: 280px;
+    background: #f0efef;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    border-radius: 5px;
+}
+.box-title {
+    text-align: center;
+    color: #2191ea;
+    font-size: 22px;
+    padding: 15px 0;
+}
+.each-line {
+    width: 460px;
+    height: 35px;
+    line-height: 35px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+.each-line .text {
+    color: gray;
+    font-size: 18px;
+    text-align: center;
+    margin-right: 5px;
+}
+.each-line input {
+    width: 250px;
+    font-size: 18px;
+}
+.send-verifycode {
+    border-radius: 5px;
+    padding: 4px;
+    background: #2191ea;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+.each-line .verifycode-text {
+    margin-left: 18px;
+}
+#error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+    height: 20px;
+}
+.sure-button {
+    margin-top: 40px;
+    text-align: center;
+}
+.sure-button > button {
+    background: #2191ea;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 5px 25px;
+}
+
+button {
+    appearance: auto;
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    background-color: -internal-light-dark(rgb(239, 239, 239), rgb(59, 59, 59));
+    box-sizing: border-box;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>更改邮箱</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./js/jTemplates/jquery-jtemplates.js"></script>
+    <link rel="stylesheet" type="text/css" src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css"></link>
+    <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./js/layui/css/layui.css">
+    <link rel="stylesheet" href="./css/adminLogin.css">
+    <link rel="stylesheet" href="./css/email.css">
+    <link rel="stylesheet" href="./css/util.css">
+</head>
+<body style="background-color:transparent;text-align:left; ">
+    <div class="mask"></div>
+        <div class="box">
+            <p class="box-title">更换邮箱</p>
+        <div class="phonenum-box each-line">
+            <span class="phonenum-text text">邮箱账号:</span>
+            <input id="email" type="text" class="email-input input">
+            <button id="getCode" class="send-verifycode" onclick="sendCode()" value="enable">点击发送验证码</button>
+        </div>
+        <div class="verifycode-box each-line">
+            <span class="verifycode-text text">验证码:</span>
+            <input id="code" type="text" class="verifycode-input input">
+        </div>
+        <p id="error"></p>
+        <div class="sure-button">
+            <button type="submit" id="regBtn" onclick="verifyCode()">确认</button>
+            <button id="cancelBtn" onclick="parent.cancel()">取消</button>
+        </div>
+    </div>
+</body>
+
+<script src="./js/layui/layui.js" type="text/javascript"> </script>
+<script>
+    layui.use(['layer'],function () {
+                var layer = layui.layer;
+            })
+    function sendCode(){
+        var email = $('#email').val();
+        var error = document.getElementById('error');
+        if(email == null || email == "" || email == undefined){
+            error.innerHTML="邮箱不能为空！";
+            return false;
+        }
+        var emreg=/^(?:[a-zA-Z0-9]+[_\-\+\.]?)*[a-zA-Z0-9]+@(?:([a-zA-Z0-9]+[_\-]?)*[a-zA-Z0-9]+\.)+([a-zA-Z]{2,})+$/;
+        if(emreg.test(email)==false){
+            error.innerHTML="邮箱不合法！";
+            return false;
+        }
+        
+        $.ajax({
+                    headers:{
+                        'token': localStorage.getItem("token")
+                    },
+                    data:{
+                        'email':email,
+                    },
+                    type:"get",
+                    traditional:true,
+                    url:"http://localhost:8080/stuInfo/sendCode",
+                    contentType:'application/json',
+                    success:function (data) {
+                        console.log(data);
+                        if(data==false){
+                            error.innerHTML="发送失败";
+                        }
+                        else{
+                            error.innerHTML="发送成功";
+                        }
+                    },
+                    error:function(ret,errorInfo,errorObj){
+                        layer.alert("您还未登录或登录已过期，稍后将跳转至登录界面", {icon: 5});
+                        console.log(ret);
+                    }
+                });
+                
+            var InterValObj; //timer变量，控制时间
+            var count = 60; //间隔函数，1秒执行
+            var curCount;//当前剩余秒数
+            curCount = count;
+            // 设置button效果，开始计时
+            document.getElementById("getCode").setAttribute("disabled","true" );//设置按钮为禁用状态
+            document.getElementById("getCode").innerHTML=curCount + "秒后重获";//更改按钮文字
+            InterValObj = window.setInterval(SetRemainTime, 1000); // 启动计时器timer处理函数，1秒执行一次
+            //timer处理函数
+    function SetRemainTime() {
+                if (curCount == 0) {//超时重新获取验证码                
+                    window.clearInterval(InterValObj);// 停止计时器
+                    document.getElementById("getCode").removeAttribute("disabled");//移除禁用状态改为可用
+                    document.getElementById("getCode").innerHTML="点击发送验证码";
+                }else {
+                    curCount--;
+                    document.getElementById("getCode").innerHTML=curCount + "秒后重获";
+                }
+        }
+    }
+    
+    function verifyCode(){
+        var code = $('#code').val();
+        var email = $('#email').val();
+        var error = document.getElementById('error');
+        if(code == null || code == "" || code == undefined){
+            error.innerHTML="验证码不能为空！";
+            return false;
+        }
+        $.ajax({
+                    headers:{
+                        'token': localStorage.getItem("token")
+                    },
+                    data:{
+                        'email':email,
+                        'code':code,
+                    },
+                    type:"get",
+                    traditional:true,
+                    url:"http://localhost:8080/stuInfo/updateEmail",
+                    contentType:'application/json',
+                    success:function (data) {
+                        console.log(data);
+                        if(data==false){
+                            error.innerHTML="验证码错误或已过期";
+                        }
+                        else{
+                            error.innerHTML="邮箱修改成功！记得刷新页面";
+                        }
+                    },
+                    error:function(ret,errorInfo,errorObj){
+                        layer.alert("您还未登录或登录已过期，稍后将跳转至登录界面", {icon: 5});
+                        console.log(ret);
+                    }
+                });
+
+        }
+</script>
+
+</html>

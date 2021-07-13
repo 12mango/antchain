@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>学生个人信息</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./js/jTemplates/jquery-jtemplates.js"></script>
+    <link rel="stylesheet" type="text/css" src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css"></link>
+    <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./js/layui/css/layui.css">
+    <link rel="stylesheet" href="./css/adminLogin.css">
+    <link rel="stylesheet" href="./css/stuInfo.css">
+    <link rel="stylesheet" href="./css/util.css">
+</head>
+
+<body class="greyBg">
+<div id="container" style="background-color: #6B91B6;">
+    <div id="top">
+        <div id="school">
+        </div>
+        <div id="system">
+        </div>
+        <div id="login_info">
+            <div id="img4" style="cursor: pointer;float: right;">
+            </div>
+            <div class="acade">
+                2019300003041 &nbsp;
+            </div>
+            <div class="acade">
+                国家网络安全学院 &nbsp; &nbsp;
+            </div>
+        </div>
+    </div>
+    <div id="main_container">
+        <div id="header">
+            <ul id="menu">
+                    <li id="img1" style="cursor: pointer;" onclick="window.location='courses.html';">
+                        
+                    </li>
+                    <li id="img2" style="cursor: pointer;" onclick="window.location='viewScore.html';">
+
+                    </li>
+                    <li id="img3" style="cursor: pointer;" onclick="window.location='info.html';">  
+
+                    </li>   
+                        
+                    
+            </ul>
+        </div>
+    
+        <div id="content">
+            <div id="left-bar" style="float: left;height: 100%;width: 1100px;">
+                <div class="title">
+                    <span class="titleFont" id="title">个人信息</span>
+                </div>
+                <div class="hr"><div class="hhr"></div></div>
+                <h2>学生学籍信息</h2>
+                <div id='result' style="overflow-y:scroll;overflow-x: hidden;"></div>
+                <div class="tableFoot" ></div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+<div id="changeEmailBox" style="width: 100%; height: 100%; position: fixed; inset:0px; display: none; "></div>
+
+</body>
+
+
+    <textarea id="template" class="template">
+        <table class="table table-striped pagination table-bordered" id='table' border="0"  >
+            <thead>
+                <tr>
+                    <th colspan="2" width="20%" bgcolor="cdd8ea">姓名</th>
+                    <th colspan="2" width="25%" bgcolor="cdd8ea">学号</th>
+                    <th colspan="2" width="25%" bgcolor="cdd8ea">性别</th>
+                    <th colspan="2" width="30%" bgcolor="cdd8ea">学院</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        {$T.name}                    
+                    </td>
+                    <td colspan="2">
+                        {$T.sid}
+                    </td>
+                    <td colspan="2">
+                        {$T.sex}
+                    </td>
+                    <td colspan="2">
+                        {$T.school}
+                    </td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th colspan="2" bgcolor="cdd8ea">专业</th>
+                    <th colspan="2" bgcolor="cdd8ea">电话</th>
+                    <th colspan="4" bgcolor="cdd8ea">邮箱</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        {$T.major}
+                    </td>
+                    <td colspan="2">
+                        {$T.phone}
+                    </td>
+                    <td colspan="4">
+                        {$T.email} &nbsp;
+                        <span id="change_email" class="code_btn" style="" onclick="email()">更换邮箱</span>
+                    </td>
+                <td>
+            </tbody>
+        </table>
+        </textarea>
+
+<script src="./js/layui/layui.js" type="text/javascript"> </script>
+<script>
+            layui.use(['layer'],function () {
+                var layer = layui.layer;
+            })
+            $(document).ready(function(){
+
+                $.ajax({
+                    headers:{
+                        'token': localStorage.getItem("token")
+                    },
+                    type:"get",
+                    traditional:true,
+                    url:"http://localhost:8080/stuInfo",
+                    contentType:'application/json',
+                    success:function (data) {
+                        console.log(data);
+                        $("#result").setTemplateElement("template");
+                        $("#result").processTemplate(data);
+                    },
+                    error:function(ret,errorInfo,errorObj){
+                        if(ret.responseJSON.code=='A0220'){
+                            layer.alert("登录已过期，稍后将跳转至登录界面", {icon: 5});
+                        }
+                        else if(ret.responseJSON.code=='A0301'){
+                            layer.alert("您还未登录，稍后将跳转至登录界面", {icon: 5});
+                        }
+                        else if(ret.responseJSON.code=='A0300'){
+                            layer.alert("您无权限查看该页面，稍后将跳转至登录界面", {icon: 5});
+                        }
+                        setTimeout("window.location.href = './index.html'",3000);
+                        console.log(ret.responseJSON.code);
+                        console.log(errorInfo);
+                        console.log(errorObj);
+                    }
+                });
+            });
+            $("#img4").click(function() {
+                var loginLoadIndex = layer.load(2);
+                localStorage.clear("token");
+                layer.alert("您已退出登录，稍后将跳转至登录界面", {icon: 0});
+                setTimeout("window.location.href = './index.html'",3000);
+            })
+            function email() {
+                $("container").css("opacity","0.8");
+                $("#changeEmailBox").css("display","block"); //inset: 0px;
+                document.getElementById('changeEmailBox').innerHTML = "<iframe src='./email.html'"+'style="width: 100%;height: 100%; scrolling="no"; frameborder="0"  '+">"+"</iframe>";
+
+            }
+            function cancel(){
+                $("#changeEmailBox").css("display","none"); //inset: 0px;
+                //document.getElementById('changeEmailBox').innerHTML = ""
+            }
+        </script>
+
+</html>

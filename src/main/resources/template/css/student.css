@@ -1,0 +1,78 @@
+#top{
+	height:55px;
+	padding-right:30px;
+	min-width: 900px;
+	background-color:#f9f9f9;
+}
+#school{
+	background-image:url(../images/boy_bg.png);
+	width:157px;
+	height:50px;
+	background-position:-94px -6px;
+	float:left;
+	margin-left:32px;
+	cursor: pointer;
+}
+#system{
+	background-image:url(../images/boy_bg.png);
+	width:151px;height:30px;
+	background-position:-93px -56px;
+	float:left;
+	margin-top:21px;
+	cursor: pointer;
+}
+#btn2{
+	background-image:url(../images/boy_bg.png);
+	background-position:-88px -172px;
+}
+#btn2:hover{
+	background-image:url(../images/menu_buttons_fc3.png);
+	background-position:-661px -108px;
+}
+#btn2.current{
+	background-image:url(../images/menu_buttons_fc3.png);
+	background-position:-661px -108px;
+}
+.tishi{
+	float:left;
+    background-image:url(../images/boy_bg.png);
+	width:33px;
+	height:31px;
+	background-position:-247px -57px;
+	margin-top:11px;
+	margin-right:6px;
+}
+#img1{
+	float: left;
+	margin-left: -300px;
+	margin-top: 100px;
+	width:70px;
+	height:70px;
+	background-image: url(../images/11.png);
+}
+
+#img1:hover{
+	background-image: url(../images/1.png);
+}
+
+#img2{
+	float: left;
+	margin-left: -200px;
+	margin-top: 100px;
+	width:70px;
+	height:70px;
+	background-image: url(../images/2.png);
+}
+
+#img3{
+	float: left;
+	margin-left: -100px;
+	margin-top: 100px;
+	width:70px;
+	height:70px;
+	background-image: url(../images/33.png);
+}
+
+#img3:hover{
+	background-image: url(../images/3.png);
+}

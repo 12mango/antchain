@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>查分</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css"></link>
+    <script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./js/layui/css/layui.css">
+    <link rel="stylesheet" href="./css/adminLogin.css">
+    <link rel="stylesheet" href="./css/student.css">
+</head>
+<body class="greyBg">
+<div id="container" style="background-color: #6B91B6;">
+    <div id="main_container">
+    	<div id="school">
+    	</div>
+    	<div id="system">
+    	</div>
+    	<div id="img1" >
+    		
+    	</div>
+    	<div id="img2">
+    	</div>
+    	<div id="img3">
+    	</div>
+    	<p><span id='result'></span></p>
+    		
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+			$(document).ready(function(){
+
+				$.get("/stuScore?sid=201901",function(ret){
+
+        				$('#result').html(ret);
+        		})
+
+
+			});
+			$("#query").click(function(){
+    	    	var title = $("#title").val();
+ 		    	var sdate = $("#sdate").val();
+ 		    	var tdate = $("#tdate").val(); 
+ 		    	var type = [];
+ 		    	var order = $("input[name='time']:checked").val();
+ 		    	$("input[name='type']:checked").each(function(i){type.push($(this).val())});
+        		$.ajax({
+					url:"/table/",
+					type:"get",
+					traditional:true,
+					data:{
+						'title':title,
+						'sdate':sdate,
+						'tdate':tdate,
+						'type':type,
+						'order':order,
+					},
+					success:function(ret){
+						$('#result').html(ret);
+						$("#sdate").val()=sdate;
+						$("#tdate").val()=tdate;
+						console.log("success");
+					},
+					error:function(ret,errorInfo,errorObj){
+						alert("哎呀！出错辽QAQ");
+						console.log(errorInfo);
+						console.log(errorObj);
+					}
+				});
+      		});
+		</script>
+
+</html>

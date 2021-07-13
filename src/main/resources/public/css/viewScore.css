@@ -1,0 +1,154 @@
+#top{
+	height:55px;
+	padding-right:30px;
+	min-width: 900px;
+	background-color:#f9f9f9;
+}
+#school{
+	margin-top: 10px;
+	background-image:url(../images/boy_bg.png);
+	width:157px;
+	height:50px;
+	background-position:-94px -6px;
+	float:left;
+	margin-left:32px;
+	cursor: pointer;
+}
+#system{
+	margin-top: 100px;
+	background-image:url(../images/boy_bg.png);
+	width:151px;height:30px;
+	background-position:-93px -56px;
+	float:left;
+	margin-top:21px;
+	cursor: pointer;
+}
+#btn2{
+	background-image:url(../images/boy_bg.png);
+	background-position:-88px -172px;
+}
+#btn2:hover{
+	background-image:url(../images/menu_buttons_fc3.png);
+	background-position:-661px -108px;
+}
+#btn2.current{
+	background-image:url(../images/menu_buttons_fc3.png);
+	background-position:-661px -108px;
+}
+.tishi{
+	float:left;
+    background-image:url(../images/boy_bg.png);
+	width:33px;
+	height:31px;
+	background-position:-247px -57px;
+	margin-top:11px;
+	margin-right:6px;
+}
+#img1{
+	float: left;
+	margin-left: -300px;
+	margin-top: 100px;
+	width:70px;
+	height:70px;
+	background-image: url(../images/11.png);
+}
+
+#img1:hover{
+	background-image: url(../images/1.png);
+}
+
+#img2{
+	float: left;
+	margin-left: -200px;
+	margin-top: 100px;
+	width:70px;
+	height:70px;
+	background-image: url(../images/2.png);
+}
+
+#img3{
+	float: left;
+	margin-left: -100px;
+	margin-top: 100px;
+	width:70px;
+	height:70px;
+	background-image: url(../images/33.png);
+}
+
+#img3:hover{
+	background-image: url(../images/3.png);
+}
+
+/*
+#result{
+	position: absolute;
+	left: -200px;
+	top:350px;
+	width:100%;
+	height:100%;
+}
+*/
+
+#result{
+	/*
+	position: absolute;
+	left: -200px;
+	top:450px;
+	width:100%;
+	height:100%;
+	*/
+    border: 0;
+    text-align: center;
+    border-collapse: collapse;
+    /*
+    margin-top: 10px;
+    */
+    height: 550px;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFF;
+    text-align: center;
+    font-size: 13px;
+}
+
+/*
+#form{
+	position: absolute;
+	left: -200px;
+	top:200px;
+	width:100%;
+	height:100%;
+}
+
+
+.form-group{
+	font-size: 14px;
+	font-weight:bold;
+}
+*/
+
+#table th{
+	text-align :center;
+}
+
+.informContent {
+    border-top: 1px solid #AAAAAA;
+}
+
+.xuhao {
+    float: left;
+    margin-top: 7px;
+    margin-left: 5px;
+}
+
+.scoreInform {
+    text-align: left;
+    font-size: 12px;
+    font-family: "微软雅黑";
+    letter-spacing: 2px;
+    line-height: 20px;
+    padding-left: 15px;
+    padding-right: 5px;
+    margin-top: 5px;
+    margin-left: 3px;
+}

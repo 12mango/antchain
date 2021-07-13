@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<title>数据库显示</title>
+	</head>
+	<body>
+		
+		<table class="table table-striped pagination" id='table'">
+			<thead>
+				<tr>
+					<th>课程名称</th><th>学分</th><th>分数</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				{% for x in data %}
+				<tr>
+					<td>
+						<div style="width: 200px">{{x.curName}}</div>
+					</td>
+					<td>
+						<div style="width: 100px">{{x.credit}}</div>
+					</td>
+					<td>
+						<div style="width: 100px" title="{{x.score}}">{{x.score}}</div>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			$("#table").bootstrapTable({
+        		pagination: true,
+       			pageSize: 10,
+        		pageNumber: 1,
+			});
+		})
+	</script>
+</html>
