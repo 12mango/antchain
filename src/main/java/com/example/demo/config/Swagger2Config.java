@@ -27,7 +27,7 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
                 .apiInfo(apiInfo())
                 .select()
                 //为当前包路径
-                .apis(RequestHandlerSelectors.basePackage("com.example.demo.config"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.demo.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

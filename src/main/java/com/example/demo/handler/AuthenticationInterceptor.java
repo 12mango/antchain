@@ -80,10 +80,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     jedis.close();
                     throw new AuthException("token无效或已过期", ExceptionCode.A0220); //登录已过期
                 }
-                //if(jedis.get(token) != "student"){
-                //System.out.println(JWT.decode(token).getSubject());
-                //System.out.println(JWT.decode(token).getSubject().equals("student"));
-                if(!JWT.decode(token).getSubject().equals("student")){
+                System.out.println(JWT.decode(token).getSubject().equals("user"));
+                //if(!JWT.decode(token).getSubject().equals("student")){
+                if(!JWT.decode(token).getSubject().equals("user")){
                     jedis.close();
                     throw new CustomException("无权限查看该页面", ExceptionCode.A0300); //无权限
                 }
@@ -126,8 +125,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     throw new AuthException("token无效或已过期", ExceptionCode.A0220); //登录已过期
                 }
                 //if(jedis.get(token) != "teacher"){
-                System.out.println(JWT.decode(token).getSubject().equals("student"));
-                if(!JWT.decode(token).getSubject().equals("teacher")){
+                //if(!JWT.decode(token).getSubject().equals("teacher")){
+                if(!JWT.decode(token).getSubject().equals("admin")){
                     jedis.close();
                     throw new CustomException("无权限查看该页面", ExceptionCode.A0300); //无权限
                 }

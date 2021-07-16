@@ -1,5 +1,8 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -9,6 +12,7 @@ public class User implements Serializable {
      *
      * @mbggenerated
      */
+    @TableId(type= IdType.AUTO)
     private Integer id;
 
     /**
