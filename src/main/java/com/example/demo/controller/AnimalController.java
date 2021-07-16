@@ -1,12 +1,16 @@
 package com.example.demo.controller;
 
+import com.auth0.jwt.JWT;
+import com.example.demo.VO.AnimalVO;
 import com.example.demo.common.annotations.UserLoginToken;
 import com.example.demo.service.AnimalService;
+import com.example.demo.service.StuCouService;
+import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/animals")

@@ -10,6 +10,7 @@ import com.example.demo.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,13 +31,14 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     }
 
     public String DateToString(Date date){
-        String str = new String();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String str = df.format(date);
         return str;
     }
 
-    public Date StringToDate(String str){
-        Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    public Date StringToDate(String str) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = df.parse(str);
         return date;
     }
 
@@ -48,8 +50,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
             tmp.setId(item.getId());
             tmp.setTarget(item.getTarget());
             tmp.setNow(item.getNow());
-            tmp.setStart(item.getStart());
-            tmp.setEnd(item.getEnd());
+            tmp.setStart(DateToString(item.getStart()));
+            tmp.setEnd(DateToString(item.getEnd()));
             tmp.setTopic(item.getTopic());
             ret.add(tmp);
         });
@@ -62,18 +64,18 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         ret.setId(result.getId());
         ret.setTarget(result.getTarget());
         ret.setNow(result.getNow());
-        ret.setStart(result.getStart());
-        ret.setEnd(result.getEnd());
+        ret.setStart(DateToString(result.getStart()));
+        ret.setEnd(DateToString(result.getEnd()));
         ret.setTopic(result.getTopic());
         return ret;
     }
 
-    public boolean createActivity(ActivityVO data){
+    public boolean createActivity(ActivityVO data) throws ParseException {
         Activity activity = new Activity();
         activity.setTarget(data.getTarget());
         activity.setNow(data.getNow());
-        activity.setStart(data.getStart());
-        activity.setEnd(data.getEnd());
+        activity.setStart(StringToDate(data.getStart()));
+        activity.setEnd(StringToDate(data.getEnd()));
         activity.setTopic(data.getTopic());
         save(activity);
         return true;

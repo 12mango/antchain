@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.utils.R;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class ActivityController {
 
     @ApiOperation("添加活动")
     @PostMapping("add")
-    public ApiVo<Boolean> createActivity(@RequestBody ActivityVO data){
+    public ApiVo<Boolean> createActivity(@RequestBody ActivityVO data) throws ParseException {
         return R.ok(activityService.createActivity(data));
     }
 

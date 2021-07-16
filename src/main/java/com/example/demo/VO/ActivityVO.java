@@ -25,13 +25,13 @@ public class ActivityVO {
 
     private Double now;
 
-    //private String start;
+    private String start;
 
-    //private String end;
+    private String end;
 
-    private Date start;
+    //private Date start;
 
-    private Date end;
+    //private Date end;
 
     private String topic;
 }

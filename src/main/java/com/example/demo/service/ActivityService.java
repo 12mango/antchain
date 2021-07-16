@@ -5,6 +5,7 @@ import com.example.demo.VO.ActivityVO;
 import com.example.demo.entity.Activity;
 import com.example.demo.entity.Course;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -14,6 +15,6 @@ import java.util.List;
 public interface ActivityService extends IService<Activity> {
     public List<ActivityVO> getAll();
     public ActivityVO getActivity(Integer id);
-    public boolean createActivity(ActivityVO data);
+    public boolean createActivity(ActivityVO data) throws ParseException;
     public double queryTotalMoney();
 }
