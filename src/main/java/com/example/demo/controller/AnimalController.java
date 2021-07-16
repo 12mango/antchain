@@ -28,9 +28,11 @@ public class AnimalController {
     public Boolean createAnimal(
                                      // @RequestHeader String token,
                                      // @RequestParam(value="id", required=false, defaultValue="") String id,
-                                     @RequestParam(value="name",required=false,defaultValue="") String name,
-                                     @RequestParam(value="type",required=false) String type,
-                                     @RequestParam(value="actscope",required=false) String actscope) {
+                                     // @RequestParam(value="name",required=false,defaultValue="") String name,
+                                     // @RequestParam(value="type",required=false) String type,
+                                     // @RequestParam(value="actscope",required=false) String actscope
+                                     @RequestBody AnimalVO animal
+                                     ) {
         /*
         if(curName == null){
             curName = "";
@@ -42,6 +44,10 @@ public class AnimalController {
             field = new ArrayList<Integer>;
         }
          */
+        String name = animal.getName();
+        String type = animal.getType();
+        String actscope = animal.getActscope();
+
         return AnimalService.createAnimal(name, type, actscope);
     }
 

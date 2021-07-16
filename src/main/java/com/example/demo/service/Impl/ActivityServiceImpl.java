@@ -53,6 +53,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
             tmp.setStart(DateToString(item.getStart()));
             tmp.setEnd(DateToString(item.getEnd()));
             tmp.setTopic(item.getTopic());
+            tmp.setDirector(item.getDirector());
+            tmp.setContact(item.getContact());
+            tmp.setDescription(item.getDescription());
+            tmp.setUrl(item.getUrl());
             ret.add(tmp);
         });
         return ret;
@@ -67,6 +71,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         ret.setStart(DateToString(result.getStart()));
         ret.setEnd(DateToString(result.getEnd()));
         ret.setTopic(result.getTopic());
+        ret.setDirector(result.getDirector());
+        ret.setContact(result.getContact());
+        ret.setDescription(result.getDescription());
+        ret.setUrl(result.getUrl());
         return ret;
     }
 
@@ -77,6 +85,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         activity.setStart(StringToDate(data.getStart()));
         activity.setEnd(StringToDate(data.getEnd()));
         activity.setTopic(data.getTopic());
+        activity.setDirector(data.getDirector());
+        activity.setContact(data.getContact());
+        activity.setDescription(data.getDescription());
+        activity.setUrl(data.getUrl());
         save(activity);
         return true;
     }

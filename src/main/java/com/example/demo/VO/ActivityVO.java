@@ -34,4 +34,12 @@ public class ActivityVO {
     //private Date end;
 
     private String topic;
+
+    private String director;
+
+    private String contact;
+
+    private String description;
+
+    private String url;
 }
