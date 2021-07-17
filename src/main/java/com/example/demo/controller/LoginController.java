@@ -20,6 +20,8 @@ import com.example.demo.utils.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +34,7 @@ import redis.clients.jedis.Jedis;
  * @author 12mango
  * @since 2021/4/4
  */
-@Api(value = "登录相关", tags = {"用于注册登陆的相关接口"})
+@Api(tags = {"注册登陆相关"})
 @RestController
 @RequestMapping("login")
 public class LoginController {
@@ -76,6 +78,9 @@ public class LoginController {
 
     @ApiOperation("普通用户登录")
     @PostMapping("user/login")
+    @ApiResponses({
+            @ApiResponse(code=403,message="没带token或token无效")
+    })
     //public String ant_logTry(@RequestBody LoginVO loginField) throws JsonProcessingException {
     public ApiVo<Map<String, String>> userLogin(@RequestBody LoginVO loginField) throws JsonProcessingException {
         Jedis jedis = new Jedis("localhost",6379);

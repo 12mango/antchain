@@ -16,7 +16,7 @@ import java.util.List;
  * @author 12mango
  * @since 2021/7/16
  */
-@Api(value = "活动相关", tags = {"用于活动信息的相关接口"})
+@Api(tags = {"活动信息相关"})
 @RestController
 @RequestMapping("activity")
 public class ActivityController {

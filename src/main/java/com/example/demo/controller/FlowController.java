@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Api(value = "活动相关", tags = {"用于资金流向的相关接口"})
+@Api(value = "资金流向", tags = {"资金流向相关"})
 @RestController
 @RequestMapping("flow")
 public class FlowController {

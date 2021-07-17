@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
-@Api(value = "打钱相关", tags = {"用于打钱的相关接口"})
+@Api(value = "交易相关", tags = {"交易相关"})
 @RestController
 @RequestMapping("transaction")
 public class TransactionController {
@@ -24,13 +24,13 @@ public class TransactionController {
         this.transactionService=transactionService;
     }
 
-    @ApiOperation("根据UID获取打钱信息列表")
+    @ApiOperation("根据UID获取交易信息列表")
     @GetMapping("getInfo")
     public ApiVo<List<TransactionVO>> getTransactionByUid(@RequestParam(value = "uid", required=false, defaultValue="2") Integer uid){
         return R.ok(transactionService.getTransactionByUid(uid));
     }
 
-    @ApiOperation("用户给活动打钱")
+    @ApiOperation("用户给活动打钱（交易）")
     @PostMapping("add")
     public ApiVo<Boolean> createTransaction(@RequestBody TransactionVO data) throws ParseException {
         return R.ok(transactionService.createTransaction(data));
