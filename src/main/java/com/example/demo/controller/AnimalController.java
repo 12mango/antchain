@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Api(value = "动物相关", tags = {"动物信息相关"})
 @RestController
-@RequestMapping("/animals")
+@RequestMapping("animals")
 public class AnimalController {
     @Autowired
     private final AnimalService animalService;
@@ -34,7 +34,7 @@ public class AnimalController {
     }
 
     @ApiOperation("添加动物信息")
-    @PostMapping("/save")
+    @PostMapping("save")
     @UserLoginToken
     public Boolean createAnimal(
                                      // @RequestHeader String token,

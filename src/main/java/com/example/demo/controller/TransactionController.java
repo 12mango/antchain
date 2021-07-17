@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.auth0.jwt.JWT;
 import com.example.demo.VO.ApiVo;
 import com.example.demo.VO.TransactionVO;
+import com.example.demo.common.annotations.UserLoginToken;
 import com.example.demo.service.TransactionService;
 import com.example.demo.utils.R;
 import io.swagger.annotations.Api;
@@ -26,7 +28,10 @@ public class TransactionController {
 
     @ApiOperation("根据UID获取交易信息列表")
     @GetMapping("getInfo")
-    public ApiVo<List<TransactionVO>> getTransactionByUid(@RequestParam(value = "uid", required=false, defaultValue="2") Integer uid){
+    @UserLoginToken
+    //public ApiVo<List<TransactionVO>> getTransactionByUid(@RequestParam(value = "uid", required=false, defaultValue="2") Integer uid){
+    public ApiVo<List<TransactionVO>> getTransactionByUid(@RequestHeader String token){
+        Integer uid = Integer.parseInt(JWT.decode(token).getAudience().get(0));
         return R.ok(transactionService.getTransactionByUid(uid));
     }
 
