@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.VO.LoginVO;
 import com.example.demo.entity.Administrator;
 import com.example.demo.entity.User;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionCode;
 import com.example.demo.mapper.AdministratorMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
@@ -42,27 +44,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setMoney(0.0);
         user.setScore(0.0);
         save(user);
+
         return true;
     }
 
-    public String logTry(LoginVO loginField){
+    public Integer logTry(LoginVO loginField){
         User tmp = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getAccount, loginField.getLoginUsername()).eq(User::getPassword,loginField.getLoginPassword()));
-        if(tmp==null){
-            return "error";
+
+        if(tmp==null) {
+            throw new CustomException("用户名或密码错误", ExceptionCode.A0201);
         }
-        else{
-            return "ok";
-        }
+        return tmp.getId();
     }
 
-    public String adminLogin(LoginVO loginField){
+    public Integer adminLogin(LoginVO loginField){
         Administrator tmp = administratorMapper.selectOne(Wrappers.<Administrator>lambdaQuery().eq(Administrator::getAccount, loginField.getLoginUsername()).eq(Administrator::getPassword,loginField.getLoginPassword()));
-        if(tmp==null){
-            return "error";
+        if(tmp==null) {
+            throw new CustomException("用户名或密码错误", ExceptionCode.A0201);
         }
-        else{
-            return "ok";
-        }
+        return tmp.getId();
     }
 
 }

@@ -79,8 +79,8 @@ public class LoginController {
     //public String ant_logTry(@RequestBody LoginVO loginField) throws JsonProcessingException {
     public ApiVo<Map<String, String>> userLogin(@RequestBody LoginVO loginField) throws JsonProcessingException {
         Jedis jedis = new Jedis("localhost",6379);
-        String stateAuser = userService.logTry(loginField);
-        String token = jwtTokenUtil.getToken(loginField,"user");
+        Integer id = userService.logTry(loginField);
+        String token = jwtTokenUtil.getToken(loginField,"user", id);
         jedis.set(token,"user");
         //jedis.expire(token, 1800);
         jedis.close();
@@ -93,8 +93,8 @@ public class LoginController {
     @PostMapping("admin/login")
     public ApiVo<Map<String, String>> adminLogin(@RequestBody LoginVO loginField) throws JsonProcessingException {
         Jedis jedis = new Jedis("localhost",6379);
-        //String stateAuser = auserService.logTry(loginField);  //这里应该写管理员的登录
-        String token = jwtTokenUtil.getToken(loginField,"admin");
+        Integer id = userService.adminLogin(loginField);  //这里应该写管理员的登录
+        String token = jwtTokenUtil.getToken(loginField,"admin", id);
         jedis.set(token,"admin");
         //jedis.expire(token, 1800);  //有效期半个小时
         jedis.close();

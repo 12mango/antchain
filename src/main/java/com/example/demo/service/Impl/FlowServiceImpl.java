@@ -57,14 +57,16 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         List<Flow> result = flowMapper.selectList(Wrappers.<Flow>lambdaQuery());
         List<FlowVO> ret = new ArrayList<FlowVO>();
         result.forEach((item)->{
-            FlowVO tmp = new FlowVO();
-            tmp.setId(item.getId());
-            tmp.setAid(item.getAid());
-            tmp.setTm(DateToString(item.getTm()));
-            tmp.setDescription(item.getDescription());
-            tmp.setUrl(item.getUrl());
-            tmp.setHash(item.getHash());
-            ret.add(tmp);
+            if (item.getAid() == aid) {
+                FlowVO tmp = new FlowVO();
+                tmp.setId(item.getId());
+                tmp.setAid(item.getAid());
+                tmp.setTm(DateToString(item.getTm()));
+                tmp.setDescription(item.getDescription());
+                tmp.setUrl(item.getUrl());
+                tmp.setHash(item.getHash());
+                ret.add(tmp);
+            }
         });
         return ret;
     }

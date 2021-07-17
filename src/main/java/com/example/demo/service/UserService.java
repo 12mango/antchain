@@ -10,6 +10,7 @@ import com.example.demo.entity.User;
  * @since 2021/7/16
  */
 public interface UserService extends IService<User> {
-    public String logTry(LoginVO loginField);
+    public Integer logTry(LoginVO loginField);
     public boolean userRegistry(LoginVO loginField);
+    public Integer adminLogin(LoginVO loginField);
 }

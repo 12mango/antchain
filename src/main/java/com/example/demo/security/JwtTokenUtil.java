@@ -19,8 +19,15 @@ public class JwtTokenUtil {
     // 用于JWT进行签名加密的秘钥
     private static String SECRET = "@!#%27832%$^54";
 
+    /*
     public String getToken(LoginVO user,String userType) {
         return JWT.create().withAudience(user.getLoginUsername()).withSubject(userType)
+                .sign(Algorithm.HMAC256(SECRET));
+    }
+     */
+
+    public String getToken(LoginVO user,String userType,Integer id) {
+        return JWT.create().withAudience(id.toString()).withSubject(userType)
                 .sign(Algorithm.HMAC256(SECRET));
     }
 
