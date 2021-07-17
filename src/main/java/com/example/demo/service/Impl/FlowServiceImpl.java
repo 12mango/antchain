@@ -88,13 +88,14 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
     }
 
     public String uploadFile(FileVO fileVO){
+
+        //智能合约部分
+
         String url = ossService.uploadFile(fileVO);
         Integer id = fileVO.getId();
         Flow flow=flowMapper.selectById(id);
         flow.setUrl(url);
         updateById(flow);
-
-        //智能合约部分
 
         return url;
     }

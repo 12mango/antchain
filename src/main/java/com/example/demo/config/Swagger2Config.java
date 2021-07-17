@@ -36,13 +36,13 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 //页面标题
-                .title("Spring Boot 测试使用 Swagger2 构建RESTful API")
+                .title("动心链后端API文档")
                 //创建人
                 .contact(new Contact("12mango", "http://www.github.com/12mango", "1498159938@qq.com"))
                 //版本号
                 .version("1.0")
                 //描述
-                .description("API 描述")
+                .description("蚂蚁区块链实训小组合作项目第一组后端API文档")
                 .build();
     }
 

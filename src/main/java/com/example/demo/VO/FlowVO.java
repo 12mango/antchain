@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 @Data
 @Accessors(chain = true)
-@ApiModel(value = "活动参数",description = "活动相关参数封装在此对象中")
+@ApiModel(value = "资金流向参数",description = "资金流向相关参数封装在此对象中")
 public class FlowVO {
     private Integer id;
     private Integer aid;
