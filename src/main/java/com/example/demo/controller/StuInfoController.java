@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("stuInfo")
+@ApiIgnore
 public class StuInfoController {
 
     @Autowired

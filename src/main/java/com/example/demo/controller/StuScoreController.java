@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.VO.*;
 import com.example.demo.service.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("stuScore")
+@ApiIgnore
 public class StuScoreController {
 
     @Autowired

@@ -8,6 +8,7 @@ import com.example.demo.service.StudentService;
 import com.example.demo.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("setScore")
+@ApiIgnore
 public class TeacherController {
 
     @Autowired
