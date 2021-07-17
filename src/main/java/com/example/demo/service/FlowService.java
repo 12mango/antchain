@@ -13,4 +13,5 @@ public interface FlowService extends IService<Flow>{
     public List<FlowVO> getFlowByAid(Integer aid);
     public boolean createFlow(FlowVO data) throws ParseException;
     public String uploadFile(FileVO fileVO);
+    public List<FlowVO> getAll(Integer length);
 }

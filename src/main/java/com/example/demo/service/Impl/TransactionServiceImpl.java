@@ -1,5 +1,6 @@
 package com.example.demo.service.Impl;
 
+import com.alipay.mychain.sdk.crypto.hash.Hash;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.VO.ActivityVO;
@@ -12,6 +13,7 @@ import com.example.demo.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -21,10 +23,12 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
 
     private FlowMapper flowMapper;
     private TransactionMapper transactionMapper;
+    private ContractServiceImpl contractService;
 
     @Autowired
-    public TransactionServiceImpl(TransactionMapper transactionMapper){
+    public TransactionServiceImpl(TransactionMapper transactionMapper,ContractServiceImpl contractService){
         this.transactionMapper=transactionMapper;
+        this.contractService=contractService;
     }
 
     public String DateToString(Date date){
@@ -54,13 +58,22 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
                 ret.add(tmp);
             }
         });
+
+        //排序
         ret.sort(Comparator.comparing(TransactionVO::getTm));
         Collections.reverse(ret);
         return ret;
     }
 
-    public boolean createTransaction(TransactionVO data) throws ParseException {
+    public boolean createTransaction(TransactionVO data) throws ParseException, IOException {
         Transaction transaction = new Transaction();
+
+        Integer id = data.getId();
+        Integer uid = data.getUid();
+        Integer aid = data.getAid();
+        Double money = data.getMoney();
+        String tm = data.getTm();
+
         transaction.setId(data.getId());
         transaction.setUid(data.getUid());
         transaction.setAid(data.getAid());
@@ -68,9 +81,16 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
         transaction.setTm(StringToDate(data.getTm()));
 
         //智能合约
-        String Hash="";
+        Integer MONEY = (int)(money*100);
 
-        transaction.setHash(Hash);
+        contractService.initMychainEnv();
+        contractService.initSdk();
+        String hash = contractService.callContractReceiveMoney(uid,MONEY,aid,tm).toString();
+        //contractService.callContractUploadProvidence("ads98fs", 1, 1, "2021-07-17 10:04:21");
+
+        //sdk.shutDown();
+
+        transaction.setHash(hash);
         save(transaction);
         return true;
     }

@@ -15,6 +15,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.lang.Math.min;
+
 @Service("FlowService")
 public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements FlowService {
 
@@ -39,7 +41,7 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         return date;
     }
 
-    public List<FlowVO> getAll(){
+    public List<FlowVO> getAll(Integer length){
         List<Flow> result = flowMapper.selectList(Wrappers.<Flow>lambdaQuery());
         List<FlowVO> ret = new ArrayList<FlowVO>();
         result.forEach((item)->{
@@ -52,9 +54,13 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
             tmp.setHash(item.getHash());
             ret.add(tmp);
         });
+
+        //排序
+
         ret.sort(Comparator.comparing(FlowVO::getTm));
         Collections.reverse(ret);
-        return ret;
+
+        return ret.subList(0,min(length.intValue(),ret.size()));
     }
 
     public List<FlowVO> getFlowByAid(Integer aid){

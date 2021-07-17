@@ -20,6 +20,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("flow")
 public class FlowController {
+
+    private static final String LENGTH = "10000";
+
     @Autowired
     private final FlowService flowService;
 
@@ -48,4 +51,13 @@ public class FlowController {
         ret.put("url",url);
         return R.ok(ret);
     }
+
+    @ApiOperation(value="获取所有活动信息",notes="length表示不传")
+    @GetMapping("getAllInfo")
+    public ApiVo<List<FlowVO>> getAll(@RequestParam(required = false,defaultValue=LENGTH) Integer length){
+
+        return R.ok(flowService.getAll(length));
+    }
+
+
 }
