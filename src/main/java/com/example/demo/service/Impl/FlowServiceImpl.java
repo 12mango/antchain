@@ -52,11 +52,11 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
             tmp.setDescription(item.getDescription());
             tmp.setUrl(item.getUrl());
             tmp.setHash(item.getHash());
+            tmp.setMoney(item.getMoney());
             ret.add(tmp);
         });
 
         //排序
-
         ret.sort(Comparator.comparing(FlowVO::getTm));
         Collections.reverse(ret);
 
@@ -75,6 +75,7 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
                 tmp.setDescription(item.getDescription());
                 tmp.setUrl(item.getUrl());
                 tmp.setHash(item.getHash());
+                tmp.setMoney(item.getMoney());
                 ret.add(tmp);
             }
         });
@@ -89,6 +90,7 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         flowes.setDescription(data.getDescription());
         flowes.setUrl(data.getUrl());
         flowes.setHash(data.getHash());
+        flowes.setMoney(data.getMoney());
         save(flowes);
         return true;
     }

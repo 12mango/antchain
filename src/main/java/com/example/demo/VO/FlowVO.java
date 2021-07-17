@@ -16,7 +16,7 @@ public class FlowVO {
     @ApiModelProperty("转账对应时间")
     private String tm;
     // private Date tm;
-
+    private Double money;
     private String description;
     private String url;
     private String hash;
