@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.VO.ActivityVO;
 import com.example.demo.VO.ApiVo;
+import com.example.demo.VO.FileVO;
 import com.example.demo.VO.FlowVO;
 import com.example.demo.service.FlowService;
 import io.swagger.annotations.Api;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.utils.R;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(value = "活动相关", tags = {"用于资金流向的相关接口"})
 @RestController
@@ -25,13 +28,6 @@ public class FlowController {
         this.flowService=flowService;
     }
 
-    /*
-    @ApiOperation("获取所有活动信息")
-    @GetMapping("getAllInfo")
-    public ApiVo<List<ActivityVO>> getAll(){
-        return R.ok(activityService.getAll());
-    }
-    */
     @ApiOperation("根据AID获取资金流向")
     @GetMapping("getInfo")
     public ApiVo<List<FlowVO>> getFlowByAid(@RequestParam(value = "aid", required=false, defaultValue="1") Integer aid){
@@ -43,11 +39,13 @@ public class FlowController {
     public ApiVo<Boolean> createFlow(@RequestBody FlowVO data) throws ParseException {
         return R.ok(flowService.createFlow(data));
     }
-/*
-    @ApiOperation("获取总募集金额")
-    @GetMapping("getTotalMoney")
-    public ApiVo<Double> queryTotalMoney(){
-        return R.ok(activityService.queryTotalMoney());
+
+    @ApiOperation("上传凭证")
+    @PostMapping("upload")
+    public ApiVo<Map<String,String>> createFlow(@RequestBody FileVO fileVO) throws ParseException {
+        String url = flowService.uploadFile(fileVO);
+        Map<String,String> ret=new HashMap<String,String>();
+        ret.put("url",url);
+        return R.ok(ret);
     }
-*/
 }

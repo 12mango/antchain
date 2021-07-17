@@ -7,6 +7,7 @@ import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.demo.VO.FileVO;
 import com.example.demo.mapper.FlowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,12 +51,10 @@ public class OSSService {
         return url;
     }
 
-    /**
-     *
-     * @param file 待上传的文件
-     * @return ok
-     */
-    public String uploadFile(MultipartFile file, Integer aid,Integer id) {
+    public String uploadFile(FileVO fileVO) {
+        MultipartFile file=fileVO.getFile();
+        Integer aid=fileVO.getAid();
+        Integer id=fileVO.getId();
         if(file == null){
             return "";
         }

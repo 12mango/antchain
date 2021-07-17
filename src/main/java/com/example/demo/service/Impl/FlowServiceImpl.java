@@ -1,7 +1,9 @@
 package com.example.demo.service.Impl;
 
+import com.aliyun.oss.OSS;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.demo.VO.FileVO;
 import com.example.demo.VO.FlowVO;
 import com.example.demo.entity.Flow;
 import com.example.demo.mapper.FlowMapper;
@@ -19,10 +21,12 @@ import java.util.List;
 public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements FlowService {
 
     private FlowMapper flowMapper;
+    private OSSService ossService;
 
     @Autowired
-    public FlowServiceImpl(FlowMapper flowMapper){
+    public FlowServiceImpl(FlowMapper flowMapper, OSSService ossService){
         this.flowMapper=flowMapper;
+        this.ossService=ossService;
     }
 
     public String DateToString(Date date){
@@ -82,11 +86,16 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         save(flowes);
         return true;
     }
-/*
-    public double queryTotalMoney(){
-        double ret = 0.0;
-        ret = activityMapper.selectList(Wrappers.<Activity>lambdaQuery()).stream().mapToDouble(Activity::getNow).sum();
-        return ret;
+
+    public String uploadFile(FileVO fileVO){
+        String url = ossService.uploadFile(fileVO);
+        Integer id = fileVO.getId();
+        Flow flow=flowMapper.selectById(id);
+        flow.setUrl(url);
+        updateById(flow);
+
+        //智能合约部分
+
+        return url;
     }
- */
 }

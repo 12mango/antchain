@@ -64,7 +64,11 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
         transaction.setAid(data.getAid());
         transaction.setMoney(data.getMoney());
         transaction.setTm(StringToDate(data.getTm()));
-        transaction.setHash(data.getHash());
+
+        //智能合约
+        String Hash="";
+
+        transaction.setHash(Hash);
         save(transaction);
         return true;
     }
