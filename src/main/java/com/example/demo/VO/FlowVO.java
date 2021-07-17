@@ -2,6 +2,7 @@ package com.example.demo.VO;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import java.util.Date;
@@ -11,8 +12,11 @@ import java.util.Date;
 public class FlowVO {
     private Integer id;
     private Integer aid;
+
+    @ApiModelProperty("转账对应时间")
     private String tm;
     // private Date tm;
+
     private String description;
     private String url;
     private String hash;

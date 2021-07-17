@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service("FlowService")
 public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements FlowService {
@@ -40,9 +38,9 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         Date date = df.parse(str);
         return date;
     }
-/*
+
     public List<FlowVO> getAll(){
-        List<Flow> result = FlowMapper.selectList(Wrappers.<Flow>lambdaQuery());
+        List<Flow> result = flowMapper.selectList(Wrappers.<Flow>lambdaQuery());
         List<FlowVO> ret = new ArrayList<FlowVO>();
         result.forEach((item)->{
             FlowVO tmp = new FlowVO();
@@ -54,9 +52,11 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
             tmp.setHash(item.getHash());
             ret.add(tmp);
         });
+        ret.sort(Comparator.comparing(FlowVO::getTm));
+        Collections.reverse(ret);
         return ret;
     }
-*/
+
     public List<FlowVO> getFlowByAid(Integer aid){
         List<Flow> result = flowMapper.selectList(Wrappers.<Flow>lambdaQuery());
         List<FlowVO> ret = new ArrayList<FlowVO>();

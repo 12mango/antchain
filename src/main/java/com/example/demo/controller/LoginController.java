@@ -91,6 +91,7 @@ public class LoginController {
         jedis.close();
         Map<String,String> ret=new HashMap<String,String>();
         ret.put("token",token);
+        ret.put("id",id.toString());
         return R.ok(ret);
     }
 
@@ -105,6 +106,7 @@ public class LoginController {
         jedis.close();
         Map<String,String> ret=new HashMap<String,String>();
         ret.put("token",token);
+        ret.put("id",id.toString());
         return R.ok(ret);
     }
 

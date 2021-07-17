@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.VO.ActivityVO;
 import com.example.demo.VO.CourseVO;
+import com.example.demo.VO.FlowVO;
 import com.example.demo.entity.Activity;
 import com.example.demo.mapper.ActivityMapper;
 import com.example.demo.service.ActivityService;
@@ -12,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author 12mango

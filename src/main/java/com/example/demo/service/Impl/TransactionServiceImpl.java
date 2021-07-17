@@ -2,6 +2,8 @@ package com.example.demo.service.Impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.demo.VO.ActivityVO;
+import com.example.demo.VO.FlowVO;
 import com.example.demo.VO.TransactionVO;
 import com.example.demo.entity.Transaction;
 import com.example.demo.mapper.FlowMapper;
@@ -12,9 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service("TransactionService")
 public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Transaction> implements TransactionService {
@@ -54,6 +54,8 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
                 ret.add(tmp);
             }
         });
+        ret.sort(Comparator.comparing(TransactionVO::getTm));
+        Collections.reverse(ret);
         return ret;
     }
 
