@@ -1,14 +1,10 @@
 package com.example.demo.controller;
 
-import com.auth0.jwt.JWT;
-import com.example.demo.VO.ActivityVO;
 import com.example.demo.VO.AnimalVO;
 import com.example.demo.VO.ApiVo;
 import com.example.demo.VO.FileVO;
 import com.example.demo.common.annotations.UserLoginToken;
 import com.example.demo.service.AnimalService;
-import com.example.demo.service.StuCouService;
-import com.example.demo.service.StudentService;
 import com.example.demo.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Api(value = "动物相关", tags = {"动物信息相关"})

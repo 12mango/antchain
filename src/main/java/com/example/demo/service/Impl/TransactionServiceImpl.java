@@ -70,6 +70,8 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
         //Integer id = data.getId();
         Integer uid = data.getUid();
         Integer aid = data.getAid();
+
+
         Double money = data.getMoney();
         String tm = data.getTm();
 

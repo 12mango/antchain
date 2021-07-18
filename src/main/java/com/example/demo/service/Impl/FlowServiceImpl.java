@@ -151,7 +151,8 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         List<Flow> result = flowMapper.selectList(Wrappers.<Flow>lambdaQuery().eq(Flow::getAid,aid));
         AtomicBoolean flag = new AtomicBoolean(true);
         result.forEach((item)->{
-            if (item.getUrl() == null) {
+            //System.out.println(item.getUrl());
+            if (item.getUrl().isEmpty()) {
                 flag.set(false);
             }
         });

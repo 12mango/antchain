@@ -3,18 +3,13 @@ package com.example.demo.controller;
 import com.auth0.jwt.JWT;
 import com.example.demo.VO.ApiVo;
 import com.example.demo.VO.LoginVO;
-import com.example.demo.common.annotations.PassToken;
 import com.example.demo.common.annotations.TeacherOnly;
 import com.example.demo.common.annotations.UserLoginToken;
 import com.example.demo.exception.AuthException;
 import com.example.demo.exception.CustomException;
 import com.example.demo.exception.ExceptionCode;
-import com.example.demo.mapper.StudentMapper;
-import com.example.demo.mapper.TeacherMapper;
-import com.example.demo.service.StudentService;
 import com.example.demo.security.JwtTokenUtil;
 
-import com.example.demo.service.TeacherService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,17 +33,7 @@ import redis.clients.jedis.Jedis;
 @RestController
 @RequestMapping("login")
 public class LoginController {
-    @Autowired
-    private final StudentService studentService;
 
-    @Autowired
-    private final TeacherService teacherService;
-
-    @Autowired
-    private final StudentMapper studentMapper;
-
-    @Autowired
-    private final TeacherMapper teacherMapper;
 
     @Autowired
     private final JwtTokenUtil jwtTokenUtil;
@@ -57,12 +42,8 @@ public class LoginController {
     private final UserService userService;
 
     @Autowired
-    public LoginController(UserService userService,StudentService studentService,JwtTokenUtil jwtTokenUtil,StudentMapper studentMapper,TeacherService teacherService,TeacherMapper teacherMapper) {
-        this.studentService = studentService;
-        this.teacherService = teacherService;
+    public LoginController(UserService userService,JwtTokenUtil jwtTokenUtil) {
         this.jwtTokenUtil = jwtTokenUtil;
-        this.studentMapper = studentMapper;
-        this.teacherMapper = teacherMapper;
         this.userService = userService;
     }
 

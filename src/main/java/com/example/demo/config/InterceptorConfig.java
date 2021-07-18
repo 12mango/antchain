@@ -1,10 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.handler.AuthenticationInterceptor;
-import com.example.demo.mapper.StudentMapper;
-import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -16,16 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    private StudentService studentService;
 
     @Autowired
-    private StudentMapper studentMapper;
+    public InterceptorConfig(){
 
-    @Autowired
-    public InterceptorConfig(StudentService studentService,StudentMapper studentMapper){
-        this.studentService=studentService;
-        this.studentMapper=studentMapper;
     }
 
     @Override
@@ -35,6 +26,6 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     }
     @Autowired
     public AuthenticationInterceptor authenticationInterceptor() {
-        return new AuthenticationInterceptor(studentService,studentMapper);
+        return new AuthenticationInterceptor();
     }
 }

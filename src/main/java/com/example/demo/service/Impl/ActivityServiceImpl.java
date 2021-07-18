@@ -3,8 +3,6 @@ package com.example.demo.service.Impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.VO.ActivityVO;
-import com.example.demo.VO.CourseVO;
-import com.example.demo.VO.FlowVO;
 import com.example.demo.entity.Activity;
 import com.example.demo.exception.CustomException;
 import com.example.demo.exception.ExceptionCode;

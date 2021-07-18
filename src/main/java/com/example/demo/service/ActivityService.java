@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.demo.VO.ActivityVO;
 import com.example.demo.entity.Activity;
-import com.example.demo.entity.Course;
 
 import java.text.ParseException;
 import java.util.List;
