@@ -1,19 +1,24 @@
 package com.example.demo.service.Impl;
 
-import com.aliyun.oss.OSS;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.VO.FileVO;
 import com.example.demo.VO.FlowVO;
 import com.example.demo.entity.Flow;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionCode;
 import com.example.demo.mapper.FlowMapper;
 import com.example.demo.service.FlowService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Math.min;
 
@@ -22,11 +27,13 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
 
     private FlowMapper flowMapper;
     private OSSService ossService;
+    private ContractService contractService;
 
     @Autowired
-    public FlowServiceImpl(FlowMapper flowMapper, OSSService ossService){
+    public FlowServiceImpl(FlowMapper flowMapper, OSSService ossService, ContractService contractService){
         this.flowMapper=flowMapper;
         this.ossService=ossService;
+        this.contractService=contractService;
     }
 
     public String DateToString(Date date){
@@ -82,29 +89,72 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         return ret;
     }
 
-    public boolean createFlow(FlowVO data) throws ParseException {
+    public boolean createFlow(FlowVO data) throws ParseException, IOException {
+
+
         Flow flowes = new Flow();
-        flowes.setId(data.getId());
+
+        Integer aid = data.getAid();
+        Double money = data.getMoney();
+        String tm = data.getTm();
+        String description = data.getDescription();
+
+        if(aid==null){
+            throw new CustomException("活动id不能为空", ExceptionCode.C0302);
+        }
+
         flowes.setAid(data.getAid());
         flowes.setTm(StringToDate(data.getTm()));
         flowes.setDescription(data.getDescription());
         flowes.setUrl(data.getUrl());
-        flowes.setHash(data.getHash());
         flowes.setMoney(data.getMoney());
         save(flowes);
+
+        Integer id = flowes.getId();
+
+        Integer MONEY = (int)(money*100);
+        String hash = contractService.callContractSpendMoney(MONEY, aid, id, tm).toString();
+        flowes.setHash(hash);
+        save(flowes);
+
         return true;
     }
 
-    public String uploadFile(FileVO fileVO){
+    public String uploadFile(FileVO fileVO) throws IOException {
 
-        //智能合约部分
-
-        String url = ossService.uploadFile(fileVO);
+        Integer aid = fileVO.getAid();
         Integer id = fileVO.getId();
+
+        // 智能合约部分
+
+        MultipartFile file = fileVO.getFile();
+        byte[] bytesArray = file.getBytes();
+
+        // 获取文件内容的hash
+        String fileContentHash = DigestUtils.sha256Hex(bytesArray);
+
+        // 调用智能合约
+        String hash = contractService.callContractUploadProvidence(fileContentHash, aid, id,DateToString(new Date())).toString();
+
+        // 文件上传至OSS
+        String url = ossService.uploadFile(fileVO);
+
         Flow flow=flowMapper.selectById(id);
         flow.setUrl(url);
+        flow.setHash(hash);
         updateById(flow);
 
         return url;
+    }
+
+    public boolean isAllUpload(Integer aid) {
+        List<Flow> result = flowMapper.selectList(Wrappers.<Flow>lambdaQuery().eq(Flow::getAid,aid));
+        AtomicBoolean flag = new AtomicBoolean(true);
+        result.forEach((item)->{
+            if (item.getUrl() == null) {
+                flag.set(false);
+            }
+        });
+        return flag.get();
     }
 }

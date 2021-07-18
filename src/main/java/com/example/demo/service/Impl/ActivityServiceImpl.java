@@ -6,6 +6,8 @@ import com.example.demo.VO.ActivityVO;
 import com.example.demo.VO.CourseVO;
 import com.example.demo.VO.FlowVO;
 import com.example.demo.entity.Activity;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionCode;
 import com.example.demo.mapper.ActivityMapper;
 import com.example.demo.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,9 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
 
     public ActivityVO getActivity(Integer id){
         Activity result = activityMapper.selectById(id);
+        if(result == null){
+            throw new CustomException("活动不存在", ExceptionCode.C0302);
+        }
         ActivityVO ret = new ActivityVO();
         ret.setId(result.getId());
         ret.setTarget(result.getTarget());

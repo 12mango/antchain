@@ -7,6 +7,8 @@ import com.example.demo.VO.FileVO;
 import com.example.demo.entity.Activity;
 import com.example.demo.entity.Animal;
 import com.example.demo.entity.Flow;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionCode;
 import com.example.demo.mapper.AnimalMapper;
 import com.example.demo.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,9 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
 
     public AnimalVO queryAnimal(Integer id){
         Animal result = animalMapper.selectById(id);
+        if(result == null){
+            throw new CustomException("查询结果不存在", ExceptionCode.C0302);
+        }
         AnimalVO ret = new AnimalVO();
         ret.setId(result.getId());
         ret.setName(result.getName());

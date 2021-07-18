@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.utils.R;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -39,13 +40,13 @@ public class FlowController {
 
     @ApiOperation("添加资金流向")
     @PostMapping("add")
-    public ApiVo<Boolean> createFlow(@RequestBody FlowVO data) throws ParseException {
+    public ApiVo<Boolean> createFlow(@RequestBody FlowVO data) throws ParseException, IOException {
         return R.ok(flowService.createFlow(data));
     }
 
     @ApiOperation("上传凭证")
     @PostMapping("upload")
-    public ApiVo<Map<String,String>> createFlow(@RequestBody FileVO fileVO) throws ParseException {
+    public ApiVo<Map<String,String>> createFlow(@RequestBody FileVO fileVO) throws ParseException, IOException {
         String url = flowService.uploadFile(fileVO);
         Map<String,String> ret=new HashMap<String,String>();
         ret.put("url",url);
@@ -57,6 +58,12 @@ public class FlowController {
     public ApiVo<List<FlowVO>> getAll(@RequestParam(required = false,defaultValue=LENGTH) Integer length){
 
         return R.ok(flowService.getAll(length));
+    }
+
+    @ApiOperation("查询活动对应的资金流向凭证是否全部上传了")
+    @GetMapping("isAllUpload")
+    public ApiVo<Boolean> getAllNoUrl(@RequestParam Integer aid) {
+        return R.ok(flowService.isAllUpload(aid));
     }
 
 

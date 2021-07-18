@@ -1,17 +1,18 @@
 package com.example.demo.service.Impl;
 
-import com.alipay.mychain.sdk.crypto.hash.Hash;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.demo.VO.ActivityVO;
-import com.example.demo.VO.FlowVO;
 import com.example.demo.VO.TransactionVO;
 import com.example.demo.entity.Transaction;
+import com.example.demo.exception.CustomException;
+import com.example.demo.exception.ExceptionCode;
 import com.example.demo.mapper.FlowMapper;
 import com.example.demo.mapper.TransactionMapper;
 import com.example.demo.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+//import org.bouncycastle.operator.OperatorCreationException;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -23,10 +24,10 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
 
     private FlowMapper flowMapper;
     private TransactionMapper transactionMapper;
-    private ContractServiceImpl contractService;
+    private ContractService contractService;
 
     @Autowired
-    public TransactionServiceImpl(TransactionMapper transactionMapper,ContractServiceImpl contractService){
+    public TransactionServiceImpl(TransactionMapper transactionMapper, ContractService contractService){
         this.transactionMapper=transactionMapper;
         this.contractService=contractService;
     }
@@ -68,13 +69,19 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
     public boolean createTransaction(TransactionVO data) throws ParseException, IOException {
         Transaction transaction = new Transaction();
 
-        Integer id = data.getId();
+        //Integer id = data.getId();
         Integer uid = data.getUid();
         Integer aid = data.getAid();
         Double money = data.getMoney();
         String tm = data.getTm();
 
-        transaction.setId(data.getId());
+        System.out.println(money);
+
+        if(uid==null || aid==null){
+            throw new CustomException("用户id或活动id不能为空", ExceptionCode.C0302);
+        }
+
+        //transaction.setId(data.getId());
         transaction.setUid(data.getUid());
         transaction.setAid(data.getAid());
         transaction.setMoney(data.getMoney());
@@ -83,10 +90,9 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
         //智能合约
         Integer MONEY = (int)(money*100);
 
-        contractService.initMychainEnv();
-        contractService.initSdk();
+        //contractService.initMychainEnv();
+        //contractService.initSdk();
         String hash = contractService.callContractReceiveMoney(uid,MONEY,aid,tm).toString();
-        //contractService.callContractUploadProvidence("ads98fs", 1, 1, "2021-07-17 10:04:21");
 
         //sdk.shutDown();
 
@@ -94,11 +100,4 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
         save(transaction);
         return true;
     }
-/*
-    public double queryTotalMoney(){
-        double ret = 0.0;
-        ret = activityMapper.selectList(Wrappers.<Activity>lambdaQuery()).stream().mapToDouble(Activity::getNow).sum();
-        return ret;
-    }
- */
 }

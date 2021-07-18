@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class TransactionController {
 
     @ApiOperation("用户给活动打钱（交易）")
     @PostMapping("add")
-    public ApiVo<Boolean> createTransaction(@RequestBody TransactionVO data) throws ParseException {
+    public ApiVo<Boolean> createTransaction(@RequestBody TransactionVO data) throws ParseException, IOException {
         return R.ok(transactionService.createTransaction(data));
     }
 
