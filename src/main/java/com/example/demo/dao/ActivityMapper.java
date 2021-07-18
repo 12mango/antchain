@@ -1,6 +1,8 @@
 package com.example.demo.dao;
 
 import com.example.demo.entity.Activity;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 
 public interface ActivityMapper {

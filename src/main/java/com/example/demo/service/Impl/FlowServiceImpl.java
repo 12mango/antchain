@@ -115,7 +115,7 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         Integer MONEY = (int)(money*100);
         String hash = contractService.callContractSpendMoney(MONEY, aid, id, tm).toString();
         flowes.setHash(hash);
-        save(flowes);
+        updateById(flowes);
 
         return true;
     }

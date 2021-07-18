@@ -29,7 +29,7 @@ public class WhuIseApplicationTests {
 		LoginVO loginVO = new LoginVO();
 		loginVO.setLoginUsername("201901");
 		loginVO.setLoginPassword("e10adc3949ba59abbe56e057f20f883e");
-		System.out.println(studentService.logTry(loginVO));
+		//System.out.println(studentService.logTry(loginVO));
 
 	}
 
