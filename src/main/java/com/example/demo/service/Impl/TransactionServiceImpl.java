@@ -3,11 +3,14 @@ package com.example.demo.service.Impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.VO.TransactionVO;
+import com.example.demo.entity.Activity;
 import com.example.demo.entity.Transaction;
 import com.example.demo.exception.CustomException;
 import com.example.demo.exception.ExceptionCode;
+import com.example.demo.mapper.ActivityMapper;
 import com.example.demo.mapper.FlowMapper;
 import com.example.demo.mapper.TransactionMapper;
+import com.example.demo.service.ActivityService;
 import com.example.demo.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +26,15 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
     private FlowMapper flowMapper;
     private TransactionMapper transactionMapper;
     private ContractService contractService;
+    private ActivityMapper activityMapper;
+    private ActivityService activityService;
 
     @Autowired
-    public TransactionServiceImpl(TransactionMapper transactionMapper, ContractService contractService){
+    public TransactionServiceImpl(TransactionMapper transactionMapper, ContractService contractService,ActivityMapper activityMapper,ActivityService activityService){
         this.transactionMapper=transactionMapper;
         this.contractService=contractService;
+        this.activityMapper=activityMapper;
+        this.activityService=activityService;
     }
 
     public String DateToString(Date date){
@@ -75,29 +82,46 @@ public class TransactionServiceImpl extends ServiceImpl<TransactionMapper, Trans
         Double money = data.getMoney();
         String tm = data.getTm();
 
-        System.out.println(money);
+        //System.out.println(money);
 
         if(uid==null || aid==null){
             throw new CustomException("用户id或活动id不能为空", ExceptionCode.C0302);
         }
 
-        //transaction.setId(data.getId());
-        transaction.setUid(data.getUid());
-        transaction.setAid(data.getAid());
-        transaction.setMoney(data.getMoney());
-        transaction.setTm(StringToDate(data.getTm()));
+        synchronized(this){
+            //transaction.setId(data.getId());
+            transaction.setUid(data.getUid());
+            transaction.setAid(data.getAid());
+            transaction.setMoney(data.getMoney());
+            transaction.setTm(StringToDate(data.getTm()));
 
-        //智能合约
-        Integer MONEY = (int)(money*100);
+            Activity activity = activityMapper.selectById(aid);
+            if(activity==null){
+                throw new CustomException("活动不存在", ExceptionCode.C0302);
+            }
 
-        //contractService.initMychainEnv();
-        //contractService.initSdk();
-        String hash = contractService.callContractReceiveMoney(uid,MONEY,aid,tm).toString();
+            Double now = activity.getNow();
+            Double target = activity.getTarget();;
+            Double minus = target - now;
+            if(minus<money){
+                throw new CustomException("转账过多", ExceptionCode.C0302);
+                //这里应该执行一个退款的程序
+            }
+            now = now + money;
 
-        //sdk.shutDown();
+            activity.setNow(now);
+            activityMapper.updateById(activity);
+            //activityService.Save(activity);
 
-        transaction.setHash(hash);
-        save(transaction);
+            //智能合约
+            Integer MONEY = (int)(money*100);
+
+            String hash = contractService.callContractReceiveMoney(uid,MONEY,aid,tm).toString();
+
+            transaction.setHash(hash);
+            save(transaction);
+        }
+
         return true;
     }
 }

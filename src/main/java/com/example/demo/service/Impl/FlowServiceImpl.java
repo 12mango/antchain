@@ -125,6 +125,11 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         Integer aid = fileVO.getAid();
         Integer id = fileVO.getId();
 
+        Flow flow=flowMapper.selectOne(Wrappers.<Flow>lambdaQuery().eq(Flow::getId,id).eq(Flow::getAid,aid));
+        if(flow==null){
+            throw new CustomException("id和aid查询不到对应资金流向", ExceptionCode.C0302);
+        }
+
         // 智能合约部分
 
         MultipartFile file = fileVO.getFile();
@@ -134,13 +139,11 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         String fileContentHash = DigestUtils.sha256Hex(bytesArray);
 
         // 调用智能合约
-        //String hash = contractService.callContractUploadProvidence(fileContentHash, aid, id,DateToString(new Date())).toString();
-
-        String hash = "";
+        String hash = contractService.callContractUploadProvidence(fileContentHash, aid, id,DateToString(new Date())).toString();
         // 文件上传至OSS
         String url = ossService.uploadFile(fileVO);
+        System.out.println(url);
 
-        Flow flow=flowMapper.selectById(id);
         flow.setUrl(url);
         flow.setHash(hash);
         updateById(flow);

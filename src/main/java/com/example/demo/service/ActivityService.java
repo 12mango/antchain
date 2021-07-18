@@ -16,4 +16,5 @@ public interface ActivityService extends IService<Activity> {
     public ActivityVO getActivity(Integer id);
     public boolean createActivity(ActivityVO data) throws ParseException;
     public double queryTotalMoney();
+    public boolean Save(Activity activity);
 }

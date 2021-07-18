@@ -100,4 +100,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         ret = activityMapper.selectList(Wrappers.<Activity>lambdaQuery()).stream().mapToDouble(Activity::getNow).sum();
         return ret;
     }
+
+    public boolean Save(Activity activity) {
+        return save(activity);
+    }
 }
