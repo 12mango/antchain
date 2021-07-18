@@ -10,4 +10,5 @@ public class AnimalVO {
     private String name;
     private String type;
     private String actscope;
+    private String url;
 }

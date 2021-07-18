@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.VO.ActivityVO;
 import com.example.demo.VO.AnimalVO;
 import com.example.demo.VO.ApiVo;
 import com.example.demo.VO.FileVO;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Api(value = "动物相关", tags = {"动物信息相关"})
@@ -75,6 +77,12 @@ public class AnimalController {
         Map<String,String> ret=new HashMap<String,String>();
         ret.put("url",url);
         return R.ok(ret);
+    }
+
+    @ApiOperation("获取全部动物信息")
+    @GetMapping("getAllInfo")
+    public ApiVo<List<AnimalVO>> getAll(){
+        return R.ok(animalService.getAll());
     }
 
 }

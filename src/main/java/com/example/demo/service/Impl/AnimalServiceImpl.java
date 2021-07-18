@@ -1,5 +1,6 @@
 package com.example.demo.service.Impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.VO.ActivityVO;
 import com.example.demo.VO.AnimalVO;
@@ -14,6 +15,9 @@ import com.example.demo.service.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("AnimalService")
 public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> implements AnimalService{
@@ -56,6 +60,22 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
         ret.setName(result.getName());
         ret.setType(result.getType());
         ret.setActscope(result.getActscope());
+        ret.setUrl(result.getUrl());
+        return ret;
+    }
+
+    public List<AnimalVO> getAll(){
+        List<Animal> result = animalMapper.selectList(Wrappers.<Animal>lambdaQuery());
+        List<AnimalVO> ret = new ArrayList<AnimalVO>();
+        result.forEach((item)->{
+            AnimalVO tmp = new AnimalVO();
+            tmp.setId(item.getId());
+            tmp.setName(item.getName());
+            tmp.setType(item.getType());
+            tmp.setActscope(item.getActscope());
+            tmp.setUrl(item.getUrl());
+            ret.add(tmp);
+        });
         return ret;
     }
 }

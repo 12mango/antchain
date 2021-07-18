@@ -2,6 +2,7 @@ package com.example.demo.service.Impl;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.AddBucketCnameRequest;
 import com.aliyun.oss.model.GetObjectRequest;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectRequest;
@@ -23,6 +24,8 @@ import java.io.IOException;
 @Service
 public class OSSService {
     static String endpoint = "oss-cn-beijing.aliyuncs.com";
+    //static String endpoint = "albatross-photo.oss-cn-beijing.aliyuncs.com";
+    static String myDomain = "picture.herowharf.cn";
     static String accessKeyId = "LTAI4G5wmonszAo2pPTYW7gr";
     static String accessKeySecret = "qrG4FL3FgBUGZbEPBMQhYSBqEVoUKl";
     static String bucketName = "albatross-photo";
@@ -45,8 +48,14 @@ public class OSSService {
     public String uploadOSS(MultipartFile file, Integer aid,Integer id) throws IOException {
         //上传至阿里云OSS
         OSS ossClient = new OSSClientBuilder().build("http://"+endpoint, accessKeyId, accessKeySecret);
+
+        AddBucketCnameRequest addBucketCnameRequest = new AddBucketCnameRequest(bucketName);
+        addBucketCnameRequest.setDomain(myDomain);
+        ossClient.addBucketCname(addBucketCnameRequest);
+
         String fileName = aid + "_" + id + "." + urlToSuffix(file.getOriginalFilename());
-        String url = bucketName + "." + endpoint + "/" + fileName;
+        //String url = bucketName + "." + endpoint + "/" + fileName;
+        String url = myDomain + "/" + fileName;
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, new ByteArrayInputStream(file.getBytes()));
         ossClient.putObject(putObjectRequest);
         ossClient.shutdown();
