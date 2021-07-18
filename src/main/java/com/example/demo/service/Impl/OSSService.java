@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.demo.VO.FileVO;
 import com.example.demo.mapper.FlowMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,7 @@ public class OSSService {
 
     private final FlowMapper flowMapper;
 
+    @Autowired
     public OSSService(FlowMapper fileMapper){
         this.flowMapper = fileMapper;
     }
@@ -43,7 +45,7 @@ public class OSSService {
     public String uploadOSS(MultipartFile file, Integer aid,Integer id) throws IOException {
         //上传至阿里云OSS
         OSS ossClient = new OSSClientBuilder().build("http://"+endpoint, accessKeyId, accessKeySecret);
-        String fileName = aid + "_" + id + urlToSuffix(file.getOriginalFilename());
+        String fileName = aid + "_" + id + "." + urlToSuffix(file.getOriginalFilename());
         String url = bucketName + "." + endpoint + "/" + fileName;
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, new ByteArrayInputStream(file.getBytes()));
         ossClient.putObject(putObjectRequest);

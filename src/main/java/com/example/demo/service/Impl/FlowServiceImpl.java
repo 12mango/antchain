@@ -134,8 +134,9 @@ public class FlowServiceImpl extends ServiceImpl<FlowMapper, Flow> implements Fl
         String fileContentHash = DigestUtils.sha256Hex(bytesArray);
 
         // 调用智能合约
-        String hash = contractService.callContractUploadProvidence(fileContentHash, aid, id,DateToString(new Date())).toString();
+        //String hash = contractService.callContractUploadProvidence(fileContentHash, aid, id,DateToString(new Date())).toString();
 
+        String hash = "";
         // 文件上传至OSS
         String url = ossService.uploadFile(fileVO);
 

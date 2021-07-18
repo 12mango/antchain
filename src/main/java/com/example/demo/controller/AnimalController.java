@@ -8,8 +8,10 @@ import com.example.demo.service.AnimalService;
 import com.example.demo.utils.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -64,13 +66,15 @@ public class AnimalController {
 
     @ApiOperation("上传动物照片")
     @PostMapping("upload")
-    public ApiVo<Map<String,String>> uploadImg(@RequestBody FileVO fileVO) throws ParseException {
+    public ApiVo<Map<String,String>> uploadImg(@RequestBody MultipartFile file,
+                                               @RequestParam Integer id) throws ParseException {
+        FileVO fileVO = new FileVO();
+        fileVO.setFile(file);
+        fileVO.setId(id);
         String url = animalService.uploadFile(fileVO);
         Map<String,String> ret=new HashMap<String,String>();
         ret.put("url",url);
         return R.ok(ret);
     }
-
-
 
 }

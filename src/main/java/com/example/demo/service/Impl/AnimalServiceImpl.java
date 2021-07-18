@@ -21,11 +21,10 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, Animal> impleme
     private OSSService ossService;
 
     @Autowired
-    public AnimalServiceImpl(AnimalMapper animalMapper){
+    public AnimalServiceImpl(AnimalMapper animalMapper,OSSService ossService){
         this.animalMapper = animalMapper;
+        this.ossService = ossService;
     }
-
-
 
     @Transactional
     public Boolean createAnimal(String name, String type, String actscope){

@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.utils.R;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -46,7 +47,12 @@ public class FlowController {
 
     @ApiOperation("上传凭证")
     @PostMapping("upload")
-    public ApiVo<Map<String,String>> createFlow(@RequestBody FileVO fileVO) throws ParseException, IOException {
+    public ApiVo<Map<String,String>> createFlow(@RequestBody MultipartFile file,
+                                                @RequestParam Integer id,@RequestParam Integer aid) throws ParseException, IOException {
+        FileVO fileVO = new FileVO();
+        fileVO.setFile(file);
+        fileVO.setId(id);
+        fileVO.setAid(aid);
         String url = flowService.uploadFile(fileVO);
         Map<String,String> ret=new HashMap<String,String>();
         ret.put("url",url);
