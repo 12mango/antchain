@@ -17,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,7 @@ import redis.clients.jedis.Jedis;
 @Api(tags = {"注册登陆相关"})
 @RestController
 @RequestMapping("login")
+@Slf4j
 public class LoginController {
 
 
@@ -73,6 +75,7 @@ public class LoginController {
         Map<String,String> ret=new HashMap<String,String>();
         ret.put("token",token);
         ret.put("id",id.toString());
+        log.info("Hello! {}", loginField.getLoginUsername());
         return R.ok(ret);
     }
 
